@@ -24,7 +24,7 @@ meanrm<- function(arg1){
 setwd("C:/Work/p3892.vesttooreins")
 df <- read_sav("reins_final.sav")
 df <- rename_with(df,tolower)
-df <- df %>% mutate(broker=if_else(s4==1,10,0),engagedfintech=if_else(a7r3>=4,1,0),engagedmarket=if_else(a7r5>=4,1,0),reinsprimary=if_else(s2b==1,1,0),retroprimary=if_else(s2b==2,1,0),pctfac=if_else(b4a==1,1,0),pcttreaty=if_else(b4a==2,1,0),pctboth=if_else(b4a==3,1,0),pctasl=if_else(b4b==1,1,0),pctqs=if_else(b4b==2,1,0),pctxol=if_else(b4b==3,1,0),numlines=if_else(s5r1>=1,1,0)+if_else(s5r2>=1,1,0)+if_else(s5r3>=1,1,0)+if_else(s5r4>=1,1,0)+if_else(s5r5>=1,1,0)+if_else(s5r6>=1,1,0)+if_else(s5r7>=1,1,0)+if_else(s5r8>=1,1,0)+if_else(s5r9>=1,1,0)+if_else(s5r10>=1,1,0)+if_else(s5r11>=1,1,0)+if_else(s5r12>=1,1,0)+if_else(s5r13>=1,1,0)+if_else(s5r14>=1,1,0)+if_else(s5r15>=1,1,0)+if_else(s5r16>=1,1,0)+if_else(s5r17>=1,1,0)+if_else(s5r18>=1,1,0)+if_else(s5r19>=1,1,0)+if_else(s5r20>=1,1,0),numlinesbracketed=ceiling(numlines/3),numlinesbracketed=if_else(numlines>=10,4,numlinesbracketed))
+df <- df %>% mutate(timeandadmin=c3r1+c3r2,workscat=if_else(s5r21>0,1,0),broker=if_else(s4==1,1,0),engagedmarkets=if_else(a7r2>=4,1,0),engagedfintech=if_else(a7r3>=4,1,0),engagedmarket=if_else(a7r5>=4,1,0),reinsprimary=if_else(s2b==1,1,0),retroprimary=if_else(s2b==2,1,0),pctfac=if_else(b4a==1,1,0),pcttreaty=if_else(b4a==2,1,0),pctboth=if_else(b4a==3,1,0),pctasl=if_else(b4b==1,1,0),pctqs=if_else(b4b==2,1,0),pctxol=if_else(b4b==3,1,0),numlines=if_else(s5r1>=1,1,0)+if_else(s5r2>=1,1,0)+if_else(s5r3>=1,1,0)+if_else(s5r4>=1,1,0)+if_else(s5r5>=1,1,0)+if_else(s5r6>=1,1,0)+if_else(s5r7>=1,1,0)+if_else(s5r8>=1,1,0)+if_else(s5r9>=1,1,0)+if_else(s5r10>=1,1,0)+if_else(s5r11>=1,1,0)+if_else(s5r12>=1,1,0)+if_else(s5r13>=1,1,0)+if_else(s5r14>=1,1,0)+if_else(s5r15>=1,1,0)+if_else(s5r16>=1,1,0)+if_else(s5r17>=1,1,0)+if_else(s5r18>=1,1,0)+if_else(s5r19>=1,1,0)+if_else(s5r20>=1,1,0),numlinesbracketed=ceiling(numlines/3),numlinesbracketed=if_else(numlines>=10,4,numlinesbracketed))
 df <- df %>% mutate(
   c_1_price = rowMeans(select(df,c(c1_lr1r1,c1_lr2r1,c1_lr3r1,c1_lr4r1,c1_lr5r1,c1_lr6r1,c1_lr7r1,c1_lr8r1,c1_lr9r1,c1_lr10r1,c1_lr11r1,c1_lr12r1,c1_lr13r1,c1_lr14r1,c1_lr15r1,c1_lr16r1,c1_lr17r1,c1_lr18r1,c1_lr19r1,c1_lr20r1)), na.rm = TRUE),
   c_1_contractflex = rowMeans(select(df,c(c1_lr1r2,c1_lr2r2,c1_lr3r2,c1_lr4r2,c1_lr5r2,c1_lr6r2,c1_lr7r2,c1_lr8r2,c1_lr9r2,c1_lr10r2,c1_lr11r2,c1_lr12r2,c1_lr13r2,c1_lr14r2,c1_lr15r2,c1_lr16r2,c1_lr17r2,c1_lr18r2,c1_lr19r2,c1_lr20r2)), na.rm = TRUE),
@@ -119,21 +119,37 @@ clust1 <- df %>% select(clustv1)
 k1<-kmeans(clust1, centers=5, iter.max = 1000, nstart=5)
 k1
 df$cluster1 <- k1$cluster
-clust_stats_1<-df %>% select(cluster1,clustv1,broker,s6r1,s2ar1,s2ar2,s2ar3,reinsprimary,retroprimary,contains('c3'),contains('s5r'),contains('c4r'),contains('c5'),pctfac,pcttreaty,pctboth,pctasl,pctqs,pctxol,contains('c_1'),numlines) %>% select(-contains('0r'),-contains('98'),-contains('99')) %>% group_by(cluster1) %>% summarise(across(everything(),meanrm))
+clust_stats_1<-df %>% select(cluster1,clustv1,broker,s6r1,s2ar1,s2ar2,s2ar3,reinsprimary,retroprimary,contains('b1'),contains('b2'),contains('c3'),contains('s5r'),contains('c4r'),contains('c5'),pctfac,pcttreaty,pctboth,pctasl,pctqs,pctxol,contains('a7'),contains('c_1'),numlines) %>% select(-contains('0r'),-contains('98'),-contains('99')) %>% group_by(cluster1) %>% summarise(across(everything(),meanrm))
 cpcts <- pcts(df,cluster1)
 lr <- df %>% group_by(cluster1) %>% summarise(lr=mean(a5,na.rm=TRUE),usebroker=mean(a6,na.rm=TRUE),sizeover1b=mean(if_else(a3==10,1,0)))
 clust_stats_1<-bind_cols(clust_stats_1,cpcts,lr)
 #write.xlsx(clust_stats_1,'c1.xlsx')
 
-#c2 - needs - removed 'c_1_price',,'c_1_marketplace''c_1_location','c_1_flexcollateral',
-clustv2 <- c('numlinesbracketed','c_1_contractflex','c_1_reassurancehistory','c_1_regulatoryexp','c_1_relationship','c_1_speedplace','c_1_histdata','c_1_speedclaims','c_1_multiline')
+#c2 - needs - removed 'c_1_price','c_1_location','c_1_flexcollateral','c_1_contractflex',,'c_1_marketplace',,'c_1_reassurancehistory','c_1_histdata',
+clustv2 <- c('numlinesbracketed','c_1_regulatoryexp','c_1_relationship','c_1_speedplace','c_1_speedclaims','c_1_multiline')
 dfn <- df %>% filter(broker==0)
 clust2 <- dfn %>% select(clustv2)
 k2<-kmeans(clust2, centers=4, iter.max = 1000, nstart=5)
 k2
 dfn$cluster2 <- k2$cluster
-clust_stats_2<-dfn %>% select(cluster2,clustv2,broker,s6r1,s2ar1,s2ar2,s2ar3,reinsprimary,retroprimary,contains('b1'),contains('b2'),contains('c3'),contains('s5r'),contains('c4r'),contains('c5'),pctfac,pcttreaty,pctboth,pctasl,pctqs,pctxol,contains('c_1'),numlines) %>% select(-contains('0r'),-contains('98'),-contains('99')) %>% group_by(cluster2) %>% summarise(across(everything(),meanrm))
-cpcts <- pcts(dfn,cluster2)
-lr <- dfn %>% group_by(cluster2) %>% summarise(lr=mean(a5,na.rm=TRUE),usebroker=mean(a6,na.rm=TRUE),sizeover1b=mean(if_else(a3==10,1,0)))
+dfq <- dfn %>% select(record,cluster2) %>% right_join(df,by = 'record',copy = FALSE)
+df <- dfq %>% mutate(cluster2 = coalesce(cluster2,5))
+clust_stats_2<-df %>% select(cluster2,clustv2,broker,s6r1,s2ar1,s2ar2,s2ar3,reinsprimary,retroprimary,contains('b1'),contains('b2'),contains('c3'),contains('s5r'),contains('c4r'),contains('c5'),pctfac,pcttreaty,pctboth,pctasl,pctqs,pctxol,contains('a7'),contains('c_1'),numlines) %>% select(-contains('0r'),-contains('98'),-contains('99')) %>% group_by(cluster2) %>% summarise(across(everything(),meanrm))
+cpcts <- pcts(df,cluster2)
+lr <- df %>% group_by(cluster2) %>% summarise(lr=mean(a5,na.rm=TRUE),usebroker=mean(a6,na.rm=TRUE),sizeover1b=mean(if_else(a3==10,1,0)))
 clust_stats_2<-bind_cols(clust_stats_2,cpcts,lr)
-write.xlsx(clust_stats_2,'c2.xls')
+#write.xlsx(clust_stats_2,'c2.xlsx')
+
+#c3
+#clustv3 <- c('b2_2','b2_5','b4a','a7r2','c_1_marketplace','timeandadmin')
+#clust3 <- df %>% filter(b4a!=4) %>% select(clustv3)
+#clust3 <- scale(clust3)
+#k3<-kmeans(clust3, centers=5, iter.max = 1000, nstart=5)
+#k3
+#df$cluster3 <- k3$cluster
+#clust_stats_3<-df %>% select(cluster3,clustv3,broker,s6r1,s2ar1,s2ar2,s2ar3,reinsprimary,retroprimary,contains('b1'),contains('b2'),contains('c3'),contains('s5r'),contains('c4r'),contains('c5'),pctfac,pcttreaty,pctboth,pctasl,pctqs,pctxol,contains('a7'),contains('c_1'),numlines) %>% select(-contains('0r'),-contains('98'),-contains('99')) %>% group_by(cluster1) %>% summarise(across(everything(),meanrm))
+#cpcts <- pcts(df,cluster3)
+#lr <- df %>% group_by(cluster3) %>% summarise(lr=mean(a5,na.rm=TRUE),usebroker=mean(a6,na.rm=TRUE),sizeover1b=mean(if_else(a3==10,1,0)))
+#clust_stats_3<-bind_cols(clust_stats_3,cpcts,lr)
+
+#write_sav(df,'clust_assign.sav')

@@ -110,14 +110,14 @@ pcts(df,c3r9)
 pcts(df,c3r10)
 pcts(df,c3r11)
 pcts(df,c3r12)
-View(df %>% select(contains('b1'),contains('b2'),contains('c3'),contains('c_1'),-contains('0r')) %>% summarise(across(everything(),meanrm)))
+#View(df %>% select(contains('b1'),contains('b2'),contains('c3'),contains('c_1'),-contains('0r')) %>% summarise(across(everything(),meanrm)))
 
 
 ### how to handle b3a 
 #how to handle media section d?#
 
 brokerprofile <- df %>% select(broker, contains('b1'),contains('b2'),contains('c3'),-contains('0r'),-contains('98'),-contains('99')) %>% group_by(broker) %>% summarise(across(everything(),mean))
-View(brokerprofile)
+#View(brokerprofile)
 write.csv(brokerprofile,'brokerstats.csv')
 
 #C1 - openness
@@ -187,9 +187,9 @@ pcts(df,cluster1,s5r18)
 pcts(df,cluster1,c5r11)
 pcts(df,cluster1,numlinesbracketed)
 pcts(df,cluster1,c4r3)
-View(df %>% select(cluster1,contains('s5')) %>% group_by(cluster1) %>% summarise(across(everything(),meanrm)))
-View(df %>% select(cluster1,contains('c5')) %>% group_by(cluster1) %>% summarise(across(everything(),meanrm)))
-View(df %>% select(cluster1,contains('d1')) %>% select(-contains('c2')) %>% group_by(cluster1) %>% summarise(across(everything(),meanrm)))
+#View(df %>% select(cluster1,contains('s5')) %>% group_by(cluster1) %>% summarise(across(everything(),meanrm)))
+#View(df %>% select(cluster1,contains('c5')) %>% group_by(cluster1) %>% summarise(across(everything(),meanrm)))
+#View(df %>% select(cluster1,contains('d1')) %>% select(-contains('c2')) %>% group_by(cluster1) %>% summarise(across(everything(),meanrm)))
 print(pcts(df,cluster1,s3),n=100)
 print(pcts(df,cluster1,s4),n=100)
 pcts(df,cluster1,s6r1>=5)

@@ -28,7 +28,7 @@ binarize <- function(arg1){
 setwd("C:/Work/p3892.vesttooreins")
 df <- read_sav("reins_final.sav")
 df <- rename_with(df,tolower)
-df <- df %>% mutate(timeandadmin=c3r1+c3r2,workscat=if_else(s5r21>0,1,0),broker=if_else(s4==1,1,0),engagedcapmark=if_else(a7r2>=4,1,0),engagedfintech=if_else(a7r3>=4,1,0),engagedmarket=if_else(a7r5>=4,1,0),reinsprimary=if_else(s2b==1,1,0),retroprimary=if_else(s2b==2,1,0),pctfac=if_else(b4a==1,1,0),pcttreaty=if_else(b4a==2,1,0),pctboth=if_else(b4a==3,1,0),pctasl=if_else(b4b==1,1,0),pctqs=if_else(b4b==2,1,0),pctxol=if_else(b4b==3,1,0),numlineslife=if_else(s5r1>=1,1,0)+if_else(s5r2>=1,1,0)+if_else(s5r3>=1,1,0)+if_else(s5r4>=1,1,0)+if_else(s5r5>=1,1,0)+if_else(s5r6>=1,1,0)+if_else(s5r7>=1,1,0),numlinespc=if_else(s5r8>=1,1,0)+if_else(s5r9>=1,1,0)+if_else(s5r10>=1,1,0)+if_else(s5r11>=1,1,0)+if_else(s5r12>=1,1,0)+if_else(s5r13>=1,1,0)+if_else(s5r14>=1,1,0)+if_else(s5r15>=1,1,0)+if_else(s5r16>=1,1,0)+if_else(s5r17>=1,1,0)+if_else(s5r18>=1,1,0)+if_else(s5r19>=1,1,0)+if_else(s5r20>=1,1,0),numlines=numlineslife+numlinespc,numlinesbracketed=ceiling(numlines/3),linefocus=if_else(numlineslife==0,'p&c only',if_else(numlinespc==0,'life only',if_else(abs(numlinespc-numlineslife)<=1,'mix',if_else(numlinespc > numlineslife,'mostly p&c','mostly life')))),pcnumlinesbracketed=if_else(numlines>=10,4,numlinesbracketed),cyberorlongevity=coal(c5r2)+coal(c5r11),mature=if_else(a2==3 | a2==4 | a2==5 | a2==6,1,0))
+df <- df %>% mutate(timeandadmin=c3r1+c3r2,workscat=if_else(s5r21>0,1,0),broker=if_else(s4==1,1,0),engagedcapmark=if_else(a7r2>=4,1,0),engagedfintech=if_else(a7r3>=4,1,0),engagedmarket=if_else(a7r5>=4,1,0),reinsprimary=if_else(s2b==1,1,0),retroprimary=if_else(s2b==2,1,0),pctfac=if_else(b4a==1,1,0),pcttreaty=if_else(b4a==2,1,0),pctboth=if_else(b4a==3,1,0),pctasl=if_else(b4b==1,1,0),pctqs=if_else(b4b==2,1,0),pctxol=if_else(b4b==3,1,0),numlineslife=if_else(s5r1>=1,1,0)+if_else(s5r2>=1,1,0)+if_else(s5r3>=1,1,0)+if_else(s5r4>=1,1,0)+if_else(s5r5>=1,1,0)+if_else(s5r6>=1,1,0)+if_else(s5r7>=1,1,0),numlinespc=if_else(s5r8>=1,1,0)+if_else(s5r9>=1,1,0)+if_else(s5r10>=1,1,0)+if_else(s5r11>=1,1,0)+if_else(s5r12>=1,1,0)+if_else(s5r13>=1,1,0)+if_else(s5r14>=1,1,0)+if_else(s5r15>=1,1,0)+if_else(s5r16>=1,1,0)+if_else(s5r17>=1,1,0)+if_else(s5r18>=1,1,0)+if_else(s5r19>=1,1,0)+if_else(s5r20>=1,1,0),numlines=numlineslife+numlinespc,numlinesbracketed=ceiling(numlines/3),linefocus=if_else(numlineslife==0,'p&c only',if_else(numlinespc==0,'life only',if_else(abs(numlinespc-numlineslife)<=1,'mix',if_else(numlinespc > numlineslife,'mostly p&c','mostly life')))),pcnumlinesbracketed=if_else(numlines>=10,4,numlinesbracketed),mature=if_else(a2==3 | a2==4 | a2==5 | a2==6,1,0))
 df <- df %>% mutate(
   c_1_price = rowMeans(select(df,c(c1_lr1r1,c1_lr2r1,c1_lr3r1,c1_lr4r1,c1_lr5r1,c1_lr6r1,c1_lr7r1,c1_lr8r1,c1_lr9r1,c1_lr10r1,c1_lr11r1,c1_lr12r1,c1_lr13r1,c1_lr14r1,c1_lr15r1,c1_lr16r1,c1_lr17r1,c1_lr18r1,c1_lr19r1,c1_lr20r1)), na.rm = TRUE),
   c_1_contractflex = rowMeans(select(df,c(c1_lr1r2,c1_lr2r2,c1_lr3r2,c1_lr4r2,c1_lr5r2,c1_lr6r2,c1_lr7r2,c1_lr8r2,c1_lr9r2,c1_lr10r2,c1_lr11r2,c1_lr12r2,c1_lr13r2,c1_lr14r2,c1_lr15r2,c1_lr16r2,c1_lr17r2,c1_lr18r2,c1_lr19r2,c1_lr20r2)), na.rm = TRUE),
@@ -43,10 +43,12 @@ df <- df %>% mutate(
   c_1_multiline = rowMeans(select(df,c(c1_lr1r11,c1_lr2r11,c1_lr3r11,c1_lr4r11,c1_lr5r11,c1_lr6r11,c1_lr7r11,c1_lr8r11,c1_lr9r11,c1_lr10r11,c1_lr11r11,c1_lr12r11,c1_lr13r11,c1_lr14r11,c1_lr15r11,c1_lr16r11,c1_lr17r11,c1_lr18r11,c1_lr19r11,c1_lr20r11)), na.rm = TRUE),
   c_1_marketplace = rowMeans(select(df,c(c1_lr1r12,c1_lr2r12,c1_lr3r12,c1_lr4r12,c1_lr5r12,c1_lr6r12,c1_lr7r12,c1_lr8r12,c1_lr9r12,c1_lr10r12,c1_lr11r12,c1_lr12r12,c1_lr13r12,c1_lr14r12,c1_lr15r12,c1_lr16r12,c1_lr17r12,c1_lr18r12,c1_lr19r12,c1_lr20r12)), na.rm = TRUE)
 )
-df <- df %>% mutate(rightsize=if_else(a1==4 | a1==5,1,0),targetlr=if_else(between(coal(a5),50,85),1,0),fitindex=cyberorlongevity+targetlr+rightsize)
-df <- df %>% mutate(impindex=c_1_contractflex+c_1_speedplace+c_1_flexcollateral+c_1_multiline+c_1_marketplace)
 df <- df %>% mutate(across(contains('s5'),binarize))
 df <- df %>% mutate(across(contains('c5'),binarize))
+df <- df %>% mutate(cyberorlongevity=coal(c5r2)+coal(c5r11))
+df <- df %>% mutate(rightsize=if_else(a1==2 | a1==3| a1==4,1,0),targetlr=if_else(between(coal(a5),55,80),1,0),fitindex=cyberorlongevity+targetlr+rightsize)
+df <- df %>% mutate(impindex=c_1_contractflex+c_1_speedplace+c_1_flexcollateral+c_1_multiline+c_1_marketplace)
+
 
 View(df)
 
@@ -156,20 +158,70 @@ cb(df %>% select(numlineslife,contains('c_1')) %>% group_by(numlineslife>0) %>% 
 cb(df %>% select(numlinespc,contains('c_1')) %>% group_by(numlinespc>0) %>% summarise(across(everything(),meanrm)))
 cb(df %>% select(numlinespc,numlineslife,contains('c_1')) %>% group_by(numlinespc>0,numlineslife>0) %>% summarise(across(everything(),meanrm)))
 df <- df %>% mutate(brokerhi=broker*10)
-#c3 - 'brokerhi','fitindex','engagedcapmark','b1_4','b2_4','cyberorlongevity','c_1_contractflex','c_1_speedplace','c_1_flexcollateral','c_1_multiline','c_1_marketplace','b1_2',
-clustv3 <- c('b1_1','b1_3','b2_1','b2_5','fitindex','c_1_speedplace','c_1_flexcollateral','c_1_multiline','c_1_marketplace')
+#c3 - 'brokerhi','engagedcapmark','b2_5','b1_4','b2_4','cyberorlongevity','c_1_contractflex','c_1_speedplace','c_1_flexcollateral','c_1_multiline','c_1_marketplace','b1_2',
+clustv3 <- c('b1_1','b1_3','b2_1','fitindex','c_1_speedplace','c_1_flexcollateral','c_1_multiline','c_1_marketplace')
 clust3 <- df %>% select(clustv3)
-clust3 <- scale(clust3)
+#clust3 <- scale(clust3)
+clust3 <- clust3 %>% mutate(fitindex=fitindex*2.5,c_1_speedplace=c_1_speedplace*3,c_1_flexcollateral=c_1_flexcollateral*3,c_1_multiline=c_1_multiline*3,c_1_marketplace=c_1_marketplace*3)
 k3<-kmeans(clust3, centers=6, iter.max = 1000, nstart=5)
 k3
 df$cluster3 <- k3$cluster
-clust_stats_3<-df %>% select(cluster3,clustv3,impindex,broker,targetlr,cyberorlongevity,mature,s6r1,s2ar1,s2ar2,s2ar3,reinsprimary,retroprimary,contains('b1'),contains('b2'),contains('c3'),contains('s5r'),contains('c4r'),contains('c5'),pctfac,pcttreaty,pctboth,pctasl,pctqs,pctxol,contains('a7'),contains('c_1'),numlines) %>% select(-contains('0r'),-contains('98'),-contains('99')) %>% group_by(cluster3) %>% summarise(across(everything(),meanrm))
+clust_stats_3<-df %>% select(cluster3,clustv3,impindex,broker,targetlr,cyberorlongevity,mature,s6r1,s2ar1,s2ar2,s2ar3,reinsprimary,retroprimary,contains('b1'),contains('b2'),contains('c3'),contains('s5r'),contains('c4r'),contains('c5'),pctfac,pcttreaty,pctboth,pctasl,pctqs,pctxol,contains('a7'),contains('c_1'),numlines, rightsize) %>% select(-contains('0r'),-contains('98'),-contains('99')) %>% group_by(cluster3) %>% summarise(across(everything(),meanrm))
 df %>% group_by(cluster3) %>% summarise(mean(impindex))
 pcts(df,cluster3,broker)
 cpcts <- pcts(df,cluster3)
-#lr <- df %>% group_by(cluster3) %>% summarise(lr=mean(a5,na.rm=TRUE),usebroker=mean(a6,na.rm=TRUE),sizeover1b=mean(if_else(a3==10,1,0)))
+lr <- df %>% group_by(cluster3) %>% summarise(lr=mean(a5,na.rm=TRUE),usebroker=mean(a6,na.rm=TRUE),sizeover1b=mean(if_else(a3==10,1,0)))
 clust_stats_3<-bind_cols(clust_stats_3,cpcts,lr)
-write.xlsx(clust_stats_3,'c3.xlsx')
+#write.xlsx(clust_stats_3,'c3.xlsx')
+
+pcts(df,cluster3,coal(c4r2)==3|coal(c4r2)==2)
+df %>% group_by(cluster3) %>% summarise(median(numlines))
+pcts(df,cluster3,cyberorlongevity>=1)
+pcts(df,cluster3,targetlr>=1)
+pcts(df,cluster3,rightsize>=1)
+pcts(df,cluster3,broker)
+pcts(df,cluster3,c_1_speedplace>=2.25)
+pcts(df,cluster3,c_1_flexcollateral>=2.25)
+pcts(df,cluster3,c_1_multiline>=2.25)
+pcts(df,cluster3,c_1_marketplace>=2.25)
+pcts(df,cluster3,c_1_price>=2.5)
+df <- df %>% mutate(caresspeed=if_else(c_1_speedplace>=2.25 | c_1_speedclaims>=2.25,TRUE,FALSE))
+#testing cluster 3
+pcts(df,cluster3,c_1_regulatoryexp>=2.25)
+pcts(df,cluster3,c_1_relationship>=2.25)
+
+pcts(df,cluster3,c_1_speedclaims>=2.5)
+
+
+pcts(df,cluster3,c_1_contractflex>=2.5)
+pcts(df,cluster3,c_1_histdata>=2.5)
+pcts(df,cluster3)
+pcts(df,cluster3,between(a5,60,75))
+pcts(df,cluster3,a3==10)
+pcts(df,cluster3,a1==6)
+pcts(df,cluster3,s5r21)
+pcts(df,cluster3,s5r18)
+pcts(df,cluster3,c5r11)
+pcts(df,cluster3,numlinesbracketed)
+cb(df %>% select(cluster3,contains('s5')) %>% group_by(cluster3) %>% summarise(across(everything(),meanrm)))
+cb(df %>% select(cluster3,contains('c5')) %>% group_by(cluster3) %>% summarise(across(everything(),meanrm)))
+cb(df %>% select(cluster3,contains('d1')) %>% select(-contains('c2')) %>% group_by(cluster3) %>% summarise(across(everything(),meanrm)))
+pcts(df,cluster3,a4>=4)
+print(pcts(df,cluster3,s3),n=100)
+print(pcts(df,cluster3,s4),n=100)
+pcts(df,cluster3,s6r1>=5)
+pcts(df,cluster3,if_else(a7r2==5,1,0)+if_else(a7r3==5,1,0)+if_else(a7r5==5,1,0)>=1)
+pcts(df,cluster3==3,engagedfintech)
+pcts(df,cluster3==4,pctasl)
+pcts(df,cluster3==6,c3r2)
+cb(df %>% select(cluster3,contains('d1')) %>% select(-contains('96'),-contains('99')) %>% group_by(cluster3) %>% summarise(across(everything(),meanrm)))
+pcts(df,cluster3,if_else(coal(d2r5)>=4,1,0)+if_else(coal(d2r6)>=4,1,0)+if_else(coal(d2r7)>=4,1,0)>=1)
+pcts(df,cluster3,a3==10)
+cb(df %>% select(cluster3,contains('d2')) %>% select(-contains('96'),-contains('99')) %>% group_by(cluster3) %>% summarise(across(everything(),meanrm)))
+
+View(pcts(df,cluster3,linefocus))
+pcts(df,cluster3,s2ar3==1)
+View(pcts(df,cluster3,s3))
 
 #testing
 pcts(df,cluster1,b1_1<=4)
@@ -219,4 +271,4 @@ print(pcts(df,cluster2,s3),n=100)
 print(pcts(df,cluster2,s4),n=100)
 pcts(df,cluster2,s6r1>=5)
 
-#write_sav(df,'clust_assign.sav')
+#write_sav(df,'clust_assign_3.sav')

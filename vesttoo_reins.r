@@ -28,7 +28,7 @@ binarize <- function(arg1){
 setwd("C:/Work/p3892.vesttooreins")
 df <- read_sav("reins_final.sav")
 df <- rename_with(df,tolower)
-df <- df %>% mutate(timeandadmin=c3r1+c3r2,workscat=if_else(s5r21>0,1,0),broker=if_else(s4==1,1,0),engagedcapmark=if_else(a7r2>=4,1,0),engagedfintech=if_else(a7r3>=4,1,0),engagedmarket=if_else(a7r5>=4,1,0),reinsprimary=if_else(s2b==1,1,0),retroprimary=if_else(s2b==2,1,0),pctfac=if_else(b4a==1,1,0),pcttreaty=if_else(b4a==2,1,0),pctboth=if_else(b4a==3,1,0),pctasl=if_else(b4b==1,1,0),pctqs=if_else(b4b==2,1,0),pctxol=if_else(b4b==3,1,0),numlineslife=if_else(s5r1>=1,1,0)+if_else(s5r2>=1,1,0)+if_else(s5r3>=1,1,0)+if_else(s5r4>=1,1,0)+if_else(s5r5>=1,1,0)+if_else(s5r6>=1,1,0)+if_else(s5r7>=1,1,0),numlinespc=if_else(s5r8>=1,1,0)+if_else(s5r9>=1,1,0)+if_else(s5r10>=1,1,0)+if_else(s5r11>=1,1,0)+if_else(s5r12>=1,1,0)+if_else(s5r13>=1,1,0)+if_else(s5r14>=1,1,0)+if_else(s5r15>=1,1,0)+if_else(s5r16>=1,1,0)+if_else(s5r17>=1,1,0)+if_else(s5r18>=1,1,0)+if_else(s5r19>=1,1,0)+if_else(s5r20>=1,1,0),numlines=numlineslife+numlinespc,numlinesbracketed=ceiling(numlines/3),linefocus=if_else(numlineslife==0,'p&c only',if_else(numlinespc==0,'life only',if_else(abs(numlinespc-numlineslife)<=1,'mix',if_else(numlinespc > numlineslife,'mostly p&c','mostly life')))),pcnumlinesbracketed=if_else(numlines>=10,4,numlinesbracketed),mature=if_else(a2==3 | a2==4 | a2==5 | a2==6,1,0))
+df <- df %>% mutate(timeandadmin=c3r1+c3r2,workscat=if_else(s5r21>0,1,0),broker=if_else(s4==1 | s3==3,1,0),engagedcapmark=if_else(a7r2>=4,1,0),engagedfintech=if_else(a7r3>=4,1,0),engagedmarket=if_else(a7r5>=4,1,0),reinsprimary=if_else(s2b==1,1,0),retroprimary=if_else(s2b==2,1,0),pctfac=if_else(b4a==1,1,0),pcttreaty=if_else(b4a==2,1,0),pctboth=if_else(b4a==3,1,0),pctasl=if_else(b4b==1,1,0),pctqs=if_else(b4b==2,1,0),pctxol=if_else(b4b==3,1,0),numlineslife=if_else(s5r1>=1,1,0)+if_else(s5r2>=1,1,0)+if_else(s5r3>=1,1,0)+if_else(s5r4>=1,1,0)+if_else(s5r5>=1,1,0)+if_else(s5r6>=1,1,0)+if_else(s5r7>=1,1,0),numlinespc=if_else(s5r8>=1,1,0)+if_else(s5r9>=1,1,0)+if_else(s5r10>=1,1,0)+if_else(s5r11>=1,1,0)+if_else(s5r12>=1,1,0)+if_else(s5r13>=1,1,0)+if_else(s5r14>=1,1,0)+if_else(s5r15>=1,1,0)+if_else(s5r16>=1,1,0)+if_else(s5r17>=1,1,0)+if_else(s5r18>=1,1,0)+if_else(s5r19>=1,1,0)+if_else(s5r20>=1,1,0),numlines=numlineslife+numlinespc,numlinesbracketed=ceiling(numlines/3),linefocus=if_else(numlineslife==0,'p&c only',if_else(numlinespc==0,'life only',if_else(abs(numlinespc-numlineslife)<=1,'mix',if_else(numlinespc > numlineslife,'mostly p&c','mostly life')))),pcnumlinesbracketed=if_else(numlines>=10,4,numlinesbracketed),mature=if_else(a2==3 | a2==4 | a2==5 | a2==6,1,0),linefocusnum=if_else(numlineslife==0,5,if_else(numlinespc==0,1,if_else(abs(numlinespc-numlineslife)<=1,3,if_else(numlinespc > numlineslife,4,2)))))
 df <- df %>% mutate(
   c_1_price = rowMeans(select(df,c(c1_lr1r1,c1_lr2r1,c1_lr3r1,c1_lr4r1,c1_lr5r1,c1_lr6r1,c1_lr7r1,c1_lr8r1,c1_lr9r1,c1_lr10r1,c1_lr11r1,c1_lr12r1,c1_lr13r1,c1_lr14r1,c1_lr15r1,c1_lr16r1,c1_lr17r1,c1_lr18r1,c1_lr19r1,c1_lr20r1)), na.rm = TRUE),
   c_1_contractflex = rowMeans(select(df,c(c1_lr1r2,c1_lr2r2,c1_lr3r2,c1_lr4r2,c1_lr5r2,c1_lr6r2,c1_lr7r2,c1_lr8r2,c1_lr9r2,c1_lr10r2,c1_lr11r2,c1_lr12r2,c1_lr13r2,c1_lr14r2,c1_lr15r2,c1_lr16r2,c1_lr17r2,c1_lr18r2,c1_lr19r2,c1_lr20r2)), na.rm = TRUE),
@@ -174,6 +174,28 @@ lr <- df %>% group_by(cluster3) %>% summarise(lr=mean(a5,na.rm=TRUE),usebroker=m
 clust_stats_3<-bind_cols(clust_stats_3,cpcts,lr)
 #write.xlsx(clust_stats_3,'c3.xlsx')
 
+
+
+
+df <- df %>% mutate(broker5=broker*10,isins=if_else(s3==1,4,0),isre=if_else(s3==2,4,0),isspec=if_else(s3==4 | s3==5 | s3 ==6,1,0), isund=if_else(s4==2,3,0), isact=if_else(s4==3,4,0), iscxo=if_else(s4==5 | s4==6 | s4 ==7 | s4==8 | s4==9,4,0))
+#','c_1_multiline',c_1_marketplace','b2_4',
+clustv4 <- c('broker5','isins','isre','isspec','isund','isact','iscxo','linefocusnum','s6r1','b2_8')
+clust4 <- df %>% select(clustv4)
+#clust4 <- scale(clust4)
+
+k4<-kmeans(clust4, centers=6, iter.max = 1000, nstart=5)
+k4
+df$cluster4 <- k4$cluster
+clust_stats_4<-df %>% select(cluster4,clustv4,impindex,broker,targetlr,cyberorlongevity,mature,s6r1,s2ar1,s2ar2,s2ar3,reinsprimary,retroprimary,contains('b1'),contains('b2'),contains('c3'),contains('s5r'),contains('c4r'),contains('c5'),pctfac,pcttreaty,pctboth,pctasl,pctqs,pctxol,contains('a7'),contains('c_1'),numlines, rightsize) %>% select(-contains('0r'),-contains('98'),-contains('99')) %>% group_by(cluster4) %>% summarise(across(everything(),meanrm))
+cpcts <- pcts(df,cluster4)
+lr <- df %>% group_by(cluster4) %>% summarise(lr=mean(a5,na.rm=TRUE),usebroker=mean(a6,na.rm=TRUE),sizeover1b=mean(if_else(a3==10,1,0)))
+clust_stats_4<-bind_cols(clust_stats_4,cpcts,lr)
+write.xlsx(clust_stats_4,'c4.xlsx')
+
+
+print(pcts(df,cluster4,s6r1),n=50)
+print(pcts(df,cluster4,a7r5),n=50)
+
 pcts(df,cluster3,coal(c4r2)==3|coal(c4r2)==2)
 df %>% group_by(cluster3) %>% summarise(median(numlines))
 pcts(df,cluster3,cyberorlongevity>=1)
@@ -271,4 +293,4 @@ print(pcts(df,cluster2,s3),n=100)
 print(pcts(df,cluster2,s4),n=100)
 pcts(df,cluster2,s6r1>=5)
 
-#write_sav(df,'clust_assign_3.sav')
+#write_sav(df,'clust_assign_4.sav')
